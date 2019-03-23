@@ -14,12 +14,15 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.IOException;
 
 @Configuration
 @EnableConfigurationProperties(ElasticsearchProperties.class)
+@EnableJpaRepositories(basePackages = "com.programmingarea.springdataelasticserach.jpaRepository")
+@EnableElasticsearchRepositories(basePackages = "com.programmingarea.springdataelasticserach.repository")
 @ConditionalOnProperty("spring.data.elasticsearch.cluster-nodes")
 class ElasticConfiguration {
 

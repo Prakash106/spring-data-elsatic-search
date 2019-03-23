@@ -1,6 +1,7 @@
 package com.programmingarea.springdataelasticserach.load;
 
 import com.programmingarea.springdataelasticserach.model.User;
+import com.programmingarea.springdataelasticserach.jpaRepository.UserJpaRepository;
 import com.programmingarea.springdataelasticserach.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -20,13 +21,22 @@ public class loader {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserJpaRepository userJpaRepository;
+
     @PostConstruct
     @Transactional
     public void loadAllUsers() {
         operations.putMapping(User.class);
-        System.out.println("Loading Data");
-        userRepository.saveAll(getData());
-        System.out.println("Loading Completed");
+        List<User> users = new ArrayList<>();
+
+        System.out.println("Loading Data to H2Database");
+        users = userJpaRepository.saveAll(getData());
+        System.out.println("Loading Completed !");
+
+        System.out.println("Loading Data to elastic search");
+        userRepository.saveAll(users);
+        System.out.println("Loading Completed !");
     }
 
     private List<User> getData() {

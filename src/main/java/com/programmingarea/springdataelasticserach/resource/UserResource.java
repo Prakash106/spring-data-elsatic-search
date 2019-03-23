@@ -18,7 +18,7 @@ public class UserResource {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping
+    @GetMapping("/users")
     public List<User> findAllUsers() {
         List<User> users = new ArrayList<>();
         Iterable<User> usersList = userRepository.findAll();
@@ -28,17 +28,17 @@ public class UserResource {
         return users;
     }
 
-    @GetMapping("user/name/{text}")
-    public List<User> findByName(@PathVariable final String text) {
-        return userRepository.findByName(text);
+    @GetMapping("users/name/{name}")
+    public List<User> findByName(@PathVariable final String name) {
+        return userRepository.findByName(name);
     }
 
-    @GetMapping("user/salary/{salary}")
+    @GetMapping("users/salary/{salary}")
     public List<User> findBySalary(@PathVariable final String salary) {
         return userRepository.findBySalary(salary);
     }
 
-    @GetMapping("user/salary/range/{salary}")
+    @GetMapping("users/salary/range/{salary}")
     public List<User> findBySalaryGreaterThan(@PathVariable final String salary) {
         return userRepository.findAllBySalaryGreaterThan(salary);
     }

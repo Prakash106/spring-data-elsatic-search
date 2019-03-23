@@ -2,8 +2,12 @@ package com.programmingarea.springdataelasticserach.model;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 
+@Entity
 @Document(indexName = "user", type = "user", shards = 1)
 public class User implements Serializable {
 
@@ -15,6 +19,8 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String name;
@@ -46,6 +52,10 @@ public class User implements Serializable {
     }
 
     private String salary;
+
+    public User() {
+
+    }
 
     public User(Long id, String name, String title, String salary) {
         this.id = id;
