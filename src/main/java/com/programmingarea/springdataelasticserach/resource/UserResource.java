@@ -3,10 +3,8 @@ package com.programmingarea.springdataelasticserach.resource;
 import com.programmingarea.springdataelasticserach.model.User;
 import com.programmingarea.springdataelasticserach.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +15,9 @@ public class UserResource {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ElasticsearchTemplate elasticsearchTemplate;
 
     @GetMapping("/users")
     public List<User> findAllUsers() {
@@ -41,6 +42,11 @@ public class UserResource {
     @GetMapping("users/salary/range/{salary}")
     public List<User> findBySalaryGreaterThan(@PathVariable final String salary) {
         return userRepository.findAllBySalaryGreaterThan(salary);
+    }
+
+    @GetMapping("users/index/delete")
+    public boolean deleteIndex() {
+        return elasticsearchTemplate.deleteIndex(User.class);
     }
     
 }
